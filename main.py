@@ -1,8 +1,12 @@
 from abc import ABC
 
-# Class abstraite document
 class Document(ABC):
+    """ 
+    Classe abstraite représentant un document général. Cette classe sert de base pour d'autres types de documents
+    comme Livre et Magazine
+    """
     def __init__(self, titre):
+        """ Initialise un document avec un titre"""
         self.titre = titre
         self.__disponible = True
 
@@ -20,19 +24,16 @@ class Document(ABC):
             raise ValueError(f"le document '{self.titre}' n'a pas été emprunté")
         self.__disponible = True
 
-# class livre
 class Livre(Document):
     def __init__(self, titre, auteur):
         super().__init__(titre)
         self.auteur = auteur
 
-# class magazine
 class Magazine(Document):
     def __init__(self, titre, numero):
         super().__init__(titre)
         self.numero = numero
 
-# class membre
 class Membre:
     def __init__(self, nom):
         self.nom = nom
@@ -47,7 +48,7 @@ class Membre:
         else:
             raise ValueError("ce document n'est pas dans la liste des emprunts")
 
-# class bibliothèque
+
 class Bibliothecaire:
     def __init__(self):
         self.catalogue = []
@@ -73,6 +74,11 @@ class Bibliothecaire:
         return None
 
     def valider_pret(self, nom_membre, titre_document):
+        """
+        Permet à un membre d'emprunter un document.
+        Vérifie que le membre existe, le document existe et que le document est disponible
+        """
+
         membre = self.trouver_membre(nom_membre)
         if membre is None:
             raise ValueError("membre introuvable")
@@ -88,6 +94,10 @@ class Bibliothecaire:
         membre.emprunter(document)
 
     def retour_document(self, nom_membre, titre_document):
+        """
+        Gère le retour d'un document emprunté par un membre.
+        Vérifie que le membre et le document existent et que le document a bien été emprunté.
+        """
         membre = self.trouver_membre(nom_membre)
         if membre is None:
             raise ValueError("membre introuvable")
@@ -104,6 +114,7 @@ class Bibliothecaire:
 
 # Menu
 def menu():
+    """ crée un objet bibliothèque vide"""
     biblio = Bibliothecaire()
 
     while True:
