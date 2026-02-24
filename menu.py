@@ -79,8 +79,8 @@ def menu():
                     print("Erreur :", e)
 
             case "4": 
-                nom = input("Saisir nom du membre : ").strip()
-                titre = input("Saisir titre du document : ").strip()
+                nom = input("Saisir le nom du membre : ").strip()
+                titre = input("Saisir le titre du document : ").strip()
 
                 if not nom or not titre:
                     print("Champs vides interdits")
