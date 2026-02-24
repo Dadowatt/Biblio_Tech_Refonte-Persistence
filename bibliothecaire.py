@@ -61,3 +61,27 @@ class Bibliothecaire:
 
         document.retourner()
         membre.retourner(document)
+        
+    def afficher_documents(self):
+        """Affiche tous les documents du catalogue avec leur statut"""
+        if not self.catalogue:
+            print("Aucun document dans le catalogue.")
+            return
+
+        print("\n--- Liste des documents ---")
+        for doc in self.catalogue:
+            """appelle __str__ de Livre ou Magazine automatiquement"""
+            print(doc)
+
+    
+    def afficher_membres(self):
+        if not self.membres:
+            print("Aucun membre inscrit.")
+            return
+
+        print("\n--- Liste des membres ---")
+        for membre in self.membres:
+            print(f"Membre : {membre.nom} - Emprunts : {len(membre.liste_emprunts)} document(s)")
+        for doc in membre.liste_emprunts:
+            """__str__ appelé automatiquement"""
+            print(f"   - {doc}")
