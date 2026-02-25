@@ -1,7 +1,7 @@
 from document import Document
 class Magazine(Document):
-    def __init__(self, titre, numero):
-        super().__init__(titre)
+    def __init__(self, titre, numero, id=None):
+        super().__init__(titre, id=id)
         self.numero = numero
 
     def __str__(self):

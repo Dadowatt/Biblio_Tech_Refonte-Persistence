@@ -1,5 +1,6 @@
 class Membre:
-    def __init__(self, nom):
+    def __init__(self, nom, id=None):
+        self.id = id
         self.nom = nom
         self.liste_emprunts = []
 

@@ -5,10 +5,16 @@ class Document(ABC):
     Classe abstraite représentant un document général. Cette classe sert de base pour d'autres types de documents
     comme Livre et Magazine
     """
-    def __init__(self, titre):
+    def __init__(self, titre, id=None):
         """ Initialise un document avec un titre"""
         self.titre = titre
         self.__disponible = True
+        self.id = id
+
+    @abstractmethod
+    def __str__(self):
+        """Chaque type de document doit définir son affichage"""
+        pass
 
     @property
     def disponible(self):
@@ -24,7 +30,4 @@ class Document(ABC):
             raise ValueError(f"le document '{self.titre}' n'a pas été emprunté")
         self.__disponible = True
     
-    @abstractmethod
-    def __str__(self):
-        """Chaque type de document doit définir son affichage"""
-        pass
+   

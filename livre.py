@@ -1,7 +1,7 @@
 from document import Document
 class Livre(Document):
-    def __init__(self, titre, auteur):
-        super().__init__(titre)
+    def __init__(self, titre, auteur, id=None):
+        super().__init__(titre, id=id)
         self.auteur = auteur
     
     def __str__(self):

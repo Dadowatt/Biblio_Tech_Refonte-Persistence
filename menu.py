@@ -1,10 +1,18 @@
 from bibliothecaire import Bibliothecaire
 from livre import Livre
 from magazine import Magazine
+import re
+
+nom_regex = r"(?=.*[A-Za-zÀ-ÿ])[A-Za-zÀ-ÿ0-9](?:[A-Za-zÀ-ÿ0-9.' -]*[A-Za-zÀ-ÿ0-9])?"
 
 def menu():
     """Crée un objet bibliothèque vide et gère le menu utilisateur"""
     biblio = Bibliothecaire()
+
+    # Charger les données depuis la base
+    biblio.charger_documents()
+    biblio.charger_membres()
+    biblio.charger_emprunts()
 
     while True:
         print("\n=== BIBLIOTHÈQUE ===")
@@ -20,57 +28,61 @@ def menu():
 
         match choix:
 
-            case "1": 
-                type_doc = input("Saisir le type (livre/magazine) : ").strip().lower()
-                if type_doc not in ["livre", "magazine"]:
-                    print("Type invalide")
-                    continue
-
-                titre = input("Saisir le titre : ").strip()
-                if not titre or not titre.replace(" ", "").isalpha():
-                    print("Titre invalide, saisissez des lettres uniquement, et pas vide")
-                    continue
+            case "1":
+                while True:
+                    type_doc = input("Saisir le type (livre/magazine) : ").strip().lower()
+                    if type_doc in ["livre", "magazine"]:
+                        break
+                    print("Type invalide, veuillez ressayer")
+        
+                while True:
+                    titre = input("Saisir le titre : ").strip()
+                    if re.fullmatch(nom_regex, titre):
+                        break
+                    print("Titre invalide, veuillez ressayer")
 
                 if type_doc == "livre":
-                    auteur = input("Saisir le nom de l'auteur : ").strip()
-                    if not auteur or not auteur.replace(" ", "").isalpha():
-                        print("Auteur invalide, saisir des lettres uniquement")
-                        continue
+                    while True:
+                        auteur = input("Saisir le nom de l'auteur : ").strip()
+                        if re.fullmatch(nom_regex, auteur):
+                            break
+                        print("Auteur invalide, veuillez saisir un nom valide")     
                     doc = Livre(titre, auteur)
                 else:
-                    numero = input("Saisir le numéro : ").strip()
-                    if not numero.isdigit():
+                    while True:
+                        numero = input("Saisir le numéro : ").strip()
+                        if numero.isdigit():
+                            numero = int(numero)
+                            break
                         print("Le numéro doit être un entier")
-                        continue
+                           
                     doc = Magazine(titre, int(numero))
 
                 biblio.ajouter_document(doc)
                 print("Document ajouté avec succès")
 
             case "2": 
-                nom = input("Saisir le nom du membre : ").strip()
-                if not nom or not nom.replace(" ", "").isalpha():
-                    print("Nom invalide, saisissez des lettres uniquement, et pas vide")
-                    continue
+                while True:
+                    nom = input("Saisir le nom du membre : ").strip()
+                    if re.fullmatch(nom_regex, nom):
+                        break
+                    print("Nom invalide, veuillez ressayer")
 
                 biblio.inscrire_membre(nom)
                 print("Membre inscrit avec succès")
 
             case "3": 
-                nom = input("Saisissez le nom du membre : ").strip()
-                titre = input("Saisissez le titre du document : ").strip()
+                while True:
+                    nom = input("Saisissez le nom du membre : ").strip()
+                    if re.fullmatch(nom_regex, nom):
+                        break
+                    print("Nom invalide, saisissez des lettres uniquement")
 
-                if not nom or not titre:
-                    print("Champs vides interdits")
-                    continue
-
-                if not nom.replace(" ", "").isalpha():
-                    print("Nom invalide")
-                    continue
-
-                if not titre.replace(" ", "").isalpha():
-                    print("Titre invalide")
-                    continue
+                while True:
+                    titre = input("Saisissez le titre du document : ").strip()
+                    if re.fullmatch(nom_regex, titre):
+                        break
+                    print("Titre invalide, caractères interdits ou champ vide")
 
                 try:
                     biblio.valider_pret(nom, titre)
@@ -79,20 +91,17 @@ def menu():
                     print("Erreur :", e)
 
             case "4": 
-                nom = input("Saisir le nom du membre : ").strip()
-                titre = input("Saisir le titre du document : ").strip()
+                while True:
+                    nom = input("Saisir le nom du membre : ").strip()
+                    if re.fullmatch(nom_regex, nom):
+                        break
+                    print("Nom invalide, caractères interdits ou champ vide")
 
-                if not nom or not titre:
-                    print("Champs vides interdits")
-                    continue
-
-                if not nom.replace(" ", "").isalpha():
-                    print("Nom invalide")
-                    continue
-
-                if not titre.replace(" ", "").isalpha():
-                    print("Titre invalide")
-                    continue
+                while True:
+                    titre = input("Saisir le titre du document : ").strip()
+                    if re.fullmatch(nom_regex, titre):
+                        break
+                    print("Titre invalide, champ vide interdit")
 
                 try:
                     biblio.retour_document(nom, titre)
