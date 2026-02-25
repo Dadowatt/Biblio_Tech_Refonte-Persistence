@@ -1,6 +1,7 @@
 import mysql.connector
 from dotenv import load_dotenv
 import os
+from contextlib import contextmanager
 load_dotenv()
 
 def get_connection():
@@ -12,11 +13,19 @@ def get_connection():
         database=os.getenv("DB_NAME"),
     )
 
-try:
-    connexion = get_connection()
-    curseur = connexion.cursor(dictionary=True)
-    print("Connexion réussie à la base de données MySQL")
-    curseur.close()
-    connexion.close()
-except mysql.connector.Error as e:
-    print(f"Erreur de connexion : {e}")
+@contextmanager
+def get_cursor(dictionary=False):
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=dictionary)
+    try:
+        yield cursor
+        conn.commit()
+    finally:
+        cursor.close()
+        conn.close()
+if __name__ == "__main__":
+    try:
+        with get_cursor(dictionary=True) as cursor:
+            print("Connexion réussie à la base de données MySQL")
+    except mysql.connector.Error as e:
+        print(f"Erreur de connexion : {e}")
