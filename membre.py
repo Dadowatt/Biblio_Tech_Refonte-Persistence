@@ -12,3 +12,4 @@ class Membre:
             self.liste_emprunts.remove(document)
         else:
             raise ValueError("ce document n'est pas dans la liste des emprunts")
+        

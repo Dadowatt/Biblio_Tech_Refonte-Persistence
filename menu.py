@@ -1,11 +1,37 @@
 from bibliothecaire import Bibliothecaire
 from livre import Livre
 from magazine import Magazine
-import re
 
-# Regex
-regex_nom = r"[A-Za-zÀ-ÿ]+(?:[ '-][A-Za-zÀ-ÿ]+)*"
-regex_titre = r"[A-Za-zÀ-ÿ0-9](?:[A-Za-zÀ-ÿ0-9.' -]*[A-Za-zÀ-ÿ0-9])?"
+def nom_valide(nom):
+    if not nom:
+        return False
+
+    # doit commencer et finir par une lettre
+    if not nom[0].isalpha() or not nom[-1].isalpha():
+        return False
+
+    for c in nom:
+        if not (c.isalpha() or c in " -'"):
+            return False
+    return True
+
+def titre_valide(titre):
+    if not titre:
+        return False
+
+    # doit commencer par lettre ou chiffre
+    if not titre[0].isalnum():
+        return False
+
+    # doit finir par lettre ou chiffre
+    if not titre[-1].isalnum():
+        return False
+    
+    for c in titre:
+        if not (c.isalnum() or c in " .'-"):
+            return False
+    return True
+
 
 def menu():
     """Crée un objet bibliothèque vide et gère le menu utilisateur"""
@@ -39,14 +65,14 @@ def menu():
         
                 while True:
                     titre = input("Saisir le titre : ").strip()
-                    if re.fullmatch(regex_titre, titre):
+                    if nom_valide(titre):
                         break
                     print("Titre invalide, veuillez ressayer")
 
                 if type_doc == "livre":
                     while True:
                         auteur = input("Saisir le nom de l'auteur : ").strip()
-                        if re.fullmatch(regex_nom, auteur):
+                        if nom_valide(nom):
                             break
                         print("Auteur invalide, veuillez saisir un nom valide")     
                     doc = Livre(titre, auteur)
@@ -66,7 +92,7 @@ def menu():
             case "2": 
                 while True:
                     nom = input("Saisir le nom du membre : ").strip()
-                    if re.fullmatch(regex_nom, nom):
+                    if nom_valide(nom):
                         break
                     print("Nom invalide, veuillez ressayer")
 
@@ -76,13 +102,13 @@ def menu():
             case "3": 
                 while True:
                     nom = input("Saisissez le nom du membre : ").strip()
-                    if re.fullmatch(regex_nom, nom):
+                    if nom_valide(nom):
                         break
                     print("Nom invalide, saisissez des lettres uniquement")
 
                 while True:
                     titre = input("Saisissez le titre du document : ").strip()
-                    if re.fullmatch(regex_titre, titre):
+                    if nom_valide(titre):
                         break
                     print("Titre invalide, caractères interdits ou champ vide")
 
@@ -95,13 +121,13 @@ def menu():
             case "4": 
                 while True:
                     nom = input("Saisir le nom du membre : ").strip()
-                    if re.fullmatch(regex_nom, nom):
+                    if nom_valide(nom):
                         break
                     print("Nom invalide, caractères interdits ou champ vide")
 
                 while True:
                     titre = input("Saisir le titre du document : ").strip()
-                    if re.fullmatch(regex_titre, titre):
+                    if nom_valide(titre):
                         break
                     print("Titre invalide, champ vide interdit")
 

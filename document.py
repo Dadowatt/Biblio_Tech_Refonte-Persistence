@@ -2,7 +2,8 @@ from abc import ABC, abstractmethod
 
 class Document(ABC):
     """ 
-    Classe abstraite représentant un document général. Cette classe sert de base pour d'autres types de documents
+    Classe abstraite représentant un document général. 
+    Cette classe sert de base pour d'autres types de documents
     comme Livre et Magazine
     """
     def __init__(self, titre, id=None):
