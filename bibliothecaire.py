@@ -1,5 +1,3 @@
-from livre import Livre
-from magazine import Magazine
 from membre import Membre
 import persistance
 

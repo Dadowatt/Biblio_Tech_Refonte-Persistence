@@ -72,7 +72,7 @@ def menu():
                 if type_doc == "livre":
                     while True:
                         auteur = input("Saisir le nom de l'auteur : ").strip()
-                        if nom_valide(nom):
+                        if nom_valide(auteur):
                             break
                         print("Auteur invalide, veuillez saisir un nom valide")     
                     doc = Livre(titre, auteur)
