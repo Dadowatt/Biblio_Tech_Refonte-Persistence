@@ -23,6 +23,7 @@ def get_cursor(dictionary=False):
     finally:
         cursor.close()
         conn.close()
+        
 if __name__ == "__main__":
     try:
         with get_cursor(dictionary=True) as cursor:

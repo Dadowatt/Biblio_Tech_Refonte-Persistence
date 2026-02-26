@@ -1,4 +1,7 @@
 from bibliothecaire import Bibliothecaire
+from bibliotheque import Bibliotheque
+from gestion_emprunt import GestionEmprunt
+from membre import Membre
 from livre import Livre
 from magazine import Magazine
 
@@ -34,13 +37,14 @@ def titre_valide(titre):
 
 
 def menu():
-    """Crée un objet bibliothèque vide et gère le menu utilisateur"""
-    biblio = Bibliothecaire()
-
-    # Charger les données depuis la base
-    biblio.charger_documents()
-    biblio.charger_membres()
-    biblio.charger_emprunts()
+    
+    """ Crée la bibliothèque et le service de gestion des emprunts """
+    biblio_obj = Bibliotheque()
+    biblio_obj.charger_documents()
+    biblio_obj.charger_membres()
+    biblio_obj.charger_emprunts()
+    gestion_emprunt = GestionEmprunt()
+    biblio = Bibliothecaire(biblio_obj, gestion_emprunt)
 
     while True:
         print("\n=== BIBLIOTHÈQUE ===")
@@ -65,7 +69,7 @@ def menu():
         
                 while True:
                     titre = input("Saisir le titre : ").strip()
-                    if nom_valide(titre):
+                    if titre_valide(titre):
                         break
                     print("Titre invalide, veuillez ressayer")
 
@@ -83,7 +87,7 @@ def menu():
                             numero = int(numero)
                             break
                         print("Le numéro doit être un entier")
-                           
+
                     doc = Magazine(titre, int(numero))
 
                 biblio.ajouter_document(doc)
@@ -91,59 +95,59 @@ def menu():
 
             case "2": 
                 while True:
-                    nom = input("Saisir le nom du membre : ").strip()
-                    if nom_valide(nom):
+                    nom_membre = input("Saisir le nom du membre : ").strip()
+                    if nom_valide(nom_membre):
                         break
                     print("Nom invalide, veuillez ressayer")
-
-                biblio.inscrire_membre(nom)
+                nouveau_membre = Membre(nom_membre)
+                biblio.inscrire_membre(nouveau_membre)
                 print("Membre inscrit avec succès")
 
             case "3": 
                 while True:
-                    nom = input("Saisissez le nom du membre : ").strip()
-                    if nom_valide(nom):
+                    nom_membre = input("Saisissez le nom du membre : ").strip()
+                    if nom_valide(nom_membre):
                         break
                     print("Nom invalide, saisissez des lettres uniquement")
 
                 while True:
-                    titre = input("Saisissez le titre du document : ").strip()
-                    if nom_valide(titre):
+                    titre_doc = input("Saisissez le titre du document : ").strip()
+                    if titre_valide(titre_doc):
                         break
                     print("Titre invalide, caractères interdits ou champ vide")
 
                 try:
-                    biblio.valider_pret(nom, titre)
+                    biblio.valider_pret(nom_membre, titre_doc)
                     print("Prêt validé")
                 except ValueError as e:
                     print("Erreur :", e)
 
             case "4": 
                 while True:
-                    nom = input("Saisir le nom du membre : ").strip()
-                    if nom_valide(nom):
+                    nom_membre = input("Saisir le nom du membre : ").strip()
+                    if nom_valide(nom_membre):
                         break
                     print("Nom invalide, caractères interdits ou champ vide")
 
                 while True:
-                    titre = input("Saisir le titre du document : ").strip()
-                    if nom_valide(titre):
+                    titre_doc = input("Saisir le titre du document : ").strip()
+                    if titre_valide(titre_doc):
                         break
                     print("Titre invalide, champ vide interdit")
 
                 try:
-                    biblio.retour_document(nom, titre)
+                    biblio.retour_document(nom_membre, titre_doc)
                     print("Document retourné avec succès")
                 except ValueError as e:
                     print("Erreur :", e)
 
             case "6":
                 """Afficher tous les documents"""
-                biblio.afficher_documents()
+                biblio.bibliotheque.afficher_documents()
 
             case "7":
                 """Afficher tous les membres et leurs emprunts"""
-                biblio.afficher_membres()
+                biblio.bibliotheque.afficher_membres()
 
             case "5":  
                 print("Au revoir !")
