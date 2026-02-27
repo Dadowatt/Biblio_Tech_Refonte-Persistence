@@ -45,7 +45,7 @@ class Bibliotheque:
         print("\n=== Liste des documents ===")
         for doc in self.catalogue:
             #appelle __str__ de Livre ou Magazine automatiquement
-            print("-"*60)
+            print("-"*70)
             print(doc)
 
 
@@ -55,11 +55,11 @@ class Bibliotheque:
             print("Aucun membre inscrit.")
             return
         print("\n=== Liste des membres ===")
-        print("="*60)
+        print("="*70)
         for membre in self.membres:
             print(f"Membre -> {membre.nom} | Emprunts : {len(membre.liste_emprunts)} document(s)")
             for doc in membre.liste_emprunts:
                 """ __str__ appelé automatiquement """
-                print("-"*60)
+                print("-"*70)
                 print(f"   - {doc}")
                 print()

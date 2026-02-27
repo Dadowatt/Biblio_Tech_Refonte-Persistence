@@ -7,4 +7,4 @@ class Livre(Document):
     
     def __str__(self):
         statut = "Disponible" if self.disponible else "Emprunté"
-        return f"Livre : {self.titre} | Auteur : {self.auteur} | Etat: ({statut})"
+        return f"Livre : {self.titre} | Auteur : {self.auteur} | état: ({statut}) |"

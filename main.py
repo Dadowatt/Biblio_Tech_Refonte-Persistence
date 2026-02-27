@@ -9,7 +9,7 @@ if __name__ == "__main__":
         result = curseur.fetchone()
 
     if result["total"] == 0:
-        print("Aucun administrateur trouvé. Création du compte admin.")
+        print("Aucun administrateur trouvé, veuillez Créer un compte admin.")
         email = input("Email admin : ").strip()
         mdp = input("Mot de passe admin : ").strip()
         creer_utilisateur(email, mdp)

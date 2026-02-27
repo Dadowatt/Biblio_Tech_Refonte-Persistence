@@ -4,6 +4,7 @@ from gestion_emprunt import GestionEmprunt
 from membre import Membre
 from livre import Livre
 from magazine import Magazine
+import persistance
 
 def nom_valide(nom):
     if not nom:
@@ -43,7 +44,7 @@ def menu():
     biblio_obj.charger_documents()
     biblio_obj.charger_membres()
     biblio_obj.charger_emprunts()
-    gestion_emprunt = GestionEmprunt()
+    gestion_emprunt = GestionEmprunt(persistance)
     biblio = Bibliothecaire(biblio_obj, gestion_emprunt)
 
     while True:

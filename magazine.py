@@ -7,4 +7,4 @@ class Magazine(Document):
 
     def __str__(self):
         statut = "Disponible" if self.disponible else "Emprunté"
-        return f"Magazine : {self.titre} | Numéro : {self.numero} Etat: ({statut})"
+        return f"Magazine : {self.titre} | Numéro : {self.numero} état: ({statut}) |"
